@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" id="html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="assignment.js"></script>
+    <link rel="stylesheet" href="assignment.css" />
+  </head>
+  <body>
+    <p id="totalCurrency">Total Currency: 0</p>
+     
+    <div id = "dice-container">
+     <span style="cursor: pointer"><img src="dice-1.svg" alt="dice" class="dice" id="dice-1"/></span>
+    </div>
+    <p id="value">Cost to upgrade: 5</p>
+    <div id = "container">
+      <button id="upgrade">Upgrade die</button>
+      <button id="newDie">New Die</button>
+    </div>
+    
+
+    <script>
+      let val = 1;
+      let value = 5;
+      let add = 0;
+      let totalCurrency = 0;
+      let multi = 1;
+      let current_die = 1;
+
+      function roll() {
+        val = Math.floor(Math.random() * 6) + 1;
+        return val;
+      }
+      roll();
+
+      let upgradeCost = function (value) {
+        if (totalCurrency >= value) {
+          totalCurrency -= value;
+          document.getElementById("totalCurrency").innerText =
+            `Total Currency: ${totalCurrency}`;
+          multi += 2;
+          console.log(totalCurrency);
+          return value + (value * 0.5);
+        } else {
+          return value;
+        }
+      };
+
+      let diceMulti = function (multivalue) {
+        console.log(multivalue, multi);
+        return multivalue * multi;
+      };
+
+      document.getElementById("upgrade").addEventListener("click", () => {
+        value = parseInt(upgradeCost(value));
+        document.getElementById("value").innerText =
+          `Cost to upgrade: ${value}`;
+      });
+
+      document.getElementById("newDie").addEventListener("click", () => {
+        let newdie = document.createElement('img')
+        newdie.src = `dice-${roll()}.svg`
+        document.getElementById("dice-container").appendChild(newdie)
+      })
+
+
+      document.getElementById("dice-container").addEventListener("click", () => {
+        const rollValue = roll();
+        document.getElementById("dice-1").src = `dice-${rollValue}.svg`;
+        add = diceMulti(rollValue);
+        totalCurrency += add;
+        document.getElementById("totalCurrency").innerText =
+          `Total Currency: ${totalCurrency}`;
+        console.log(totalCurrency);
+      });
+    </script>
+  </body>
+</html>
